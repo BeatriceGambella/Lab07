@@ -36,10 +36,28 @@ class View:
         self.txt_titolo = ft.Text(value="Biblioteche di Torino", size=38, weight=ft.FontWeight.BOLD)
 
         # --- Sezione 2: Filtraggio ---
-        # TODO
+        #creo una dropdown per selezionare la biblioteca
+        self._dd_biblioteca = ft.Dropdown(label="Biblioteca",
+                                          width=450,             #larghezza dropdown
+                                          on_select=self.controller.handler_biblioteca_sel  #chiama la funzione quando viene selezionata una biblioteca
+                                          )
+        self.controller.popola_dd_biblioteca()    #funzione del controller che popola la dropdown delle biblioteche
+
+        #creo una dropdown per selezionare il genere
+        self._dd_genere = ft.Dropdown(label="Genere",
+                                      width=250,           #larghezza dropdown
+                                      on_select=self.controller.handler_genere_sel    #chiama la funzione quando viene selezionato un genere
+                                      )
+        self.controller.popola_dd_genere()         #funzione del controller che popola la dropdown dei generi
+
 
         # Sezione 3: Libri
-        # TODO
+        #creo pulsante per mostrare i libri selezionati in base ai criteri scelti
+        pulsante_mostra_libri = ft.Button(content="Mostra Libri",
+                                          on_click=self.controller.handler_mostra)   #quando viene premuto chiama la funzione del controller
+
+        #creo la lista che conterrà i libri selezionati in base ai criteri
+        self._lista_libri = ft.ListView(expand=True, spacing=10, auto_scroll=True)
 
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
@@ -53,10 +71,16 @@ class View:
             ft.Divider(),
 
             # Sezione 2: Filtraggio
-            # TODO
+            #creo una riga che contenga le due drop down per selezionare i criteri, allineandole al centro
+            ft.Row(controls = [self._dd_biblioteca, self._dd_genere],
+                   alignment = ft.MainAxisAlignment.CENTER,
+                   spacing=20,
+                   ),
+            ft.Divider(),    #riga di divisione tra le sezioni
 
             # Sezione 3: Libri
-            # TODO
+            pulsante_mostra_libri,    #aggiungo il pulsante per mostrare i libri selezionati alla pagina
+            self._lista_libri,        #aggiungo la lista contenente i libri selezionati alla pagina
         )
 
         self.page.scroll = "adaptive"
